@@ -1,16 +1,44 @@
+// Initialize Firebase
+var config = {
+  apiKey: 'AIzaSyCDl5786d2qbt1J1QsOdhYVLM7o19JRoGA',
+  authDomain: 'gpa-d-7c696.firebaseapp.com',
+  databaseURL: 'https://gpa-d-7c696.firebaseio.com',
+  projectId: 'gpa-d-7c696',
+  storageBucket: 'gpa-d-7c696.appspot.com',
+  messagingSenderId: '718824836495'
+};
+firebase.initializeApp(config);
+
+// Initial values
+var firstName = '';
+var lastName = '';
+var address = '';
+var city = '';
+var province = '';
+var country = '';
+var postalcode = '';
+var email = '';
+var password = '';
+
+// Create a variable to reference the database.
+var database = firebase.database();
+
 // Create new User
-$('#signUpSubmit').click(function(event) {
+$('#signUpSubmit').on('click', function(event) {
   event.preventDefault();
 
   firebase
     .auth()
     .createUserWithEmailAndPassword(email, password)
+    .then(function(user) {
+      console.log('uid', user.uid);
+    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       console.log(errorMessage);
-    }).then;
+    });
 
   // Capture user inputs and store them into variables
   var firstName = $('#inputFName')
@@ -28,6 +56,9 @@ $('#signUpSubmit').click(function(event) {
   var province = $('inputProvince')
     .val()
     .trim();
+  var country = $('#inputCountry')
+    .val()
+    .trim();
   var postalcode = $('#inputPC')
     .val()
     .trim();
@@ -38,34 +69,35 @@ $('#signUpSubmit').click(function(event) {
     .val()
     .trim();
 
-  dataRef.ref().push({
+  database.ref('users').push({
     firstName: firstName,
     lastName: lastName,
     address: address,
     city: city,
     province: province,
+    country: country,
     postalcode: postalcode,
     email: email,
     password: password
   });
 
-  dataRef.ref().on('child added', function(childSnapShot) {}),
-    function(errorObject) {
-      console.log('Errors handled: ' + errorObject.code);
-    };
+  //dataRef.ref().on('child added', function(childSnapShot) {}),
+  //function(errorObject) {
+  //console.log('Errors handled: ' + errorObject.code);
+  //};
 
   // Console log each of the user inputs to confirm we are receiving them
-  console.log(childSnapShot.val().firstName);
-  console.log(childSnapShot.val().lastName);
-  console.log(childSnapShot.val().address);
-  console.log(childSnapShot.val().city);
-  console.log(childSnapShot.val().province);
-  console.log(childSnapShot.val().postalcode);
-  console.log(childSnapShot.val().email);
-  console.log(childSnapShot.val().password);
+  // console.log(childSnapShot.val().firstName);
+  //console.log(childSnapShot.val().lastName);
+  //console.log(childSnapShot.val().address);
+  //console.log(childSnapShot.val().city);
+  //console.log(childSnapShot.val().province);
+  //console.log(childSnapShot.val().postalcode);
+  //console.log(childSnapShot.val().email);
+  //console.log(childSnapShot.val().password);
 
   // Clear sessionStorage
-  sessionStorage.clear();
+  //sessionStorage.clear();
 
   // Store all content into sessionStorage
   sessionStorage.setItem('first name', firstName);
@@ -73,19 +105,23 @@ $('#signUpSubmit').click(function(event) {
   sessionStorage.setItem('address', address);
   sessionStorage.setItem('city', city);
   sessionStorage.setItem('province', province);
+  sessionStorage.setItem('country', country);
   sessionStorage.setItem('postal code', postalcode);
   sessionStorage.setItem('email', email);
   sessionStorage.setItem('password', password);
 });
 
 // Sign In
-$('#signInSubmit').click(function(event) {
+$('#signInSubmit').on('click', function(event) {
   event.preventDefault();
   var email = $('#signInEmail').val();
   var password = $('#signInPassword').val();
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
+    .then(function(user) {
+      console.log('uid', user.uid);
+    })
     .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;

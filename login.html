@@ -14,18 +14,6 @@
   <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase-database.js"></script>
 
-  <script>
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyCDl5786d2qbt1J1QsOdhYVLM7o19JRoGA",
-      authDomain: "gpa-d-7c696.firebaseapp.com",
-      databaseURL: "https://gpa-d-7c696.firebaseio.com",
-      projectId: "gpa-d-7c696",
-      storageBucket: "gpa-d-7c696.appspot.com",
-      messagingSenderId: "718824836495"
-    };
-    firebase.initializeApp(config);
-  </script>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
@@ -60,11 +48,15 @@
       </div>
       <div class="form-group">
         <div class="form-row">
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
             <label for="inputProvince">Province</label>
             <input type="text" class="form-control" id="inputProvince" placeholder="Quebec">
           </div>
-          <div class="form-group col-md-6">
+          <div class="form-group col-md-4">
+            <label for="inputCountry">Country</label>
+            <input type="text" class="form-control" id="inputCountry" placeholder="Canada">
+          </div>
+          <div class="form-group col-md-4">
             <label for="inputPC">Postal Code</label>
             <input type="text" class="form-control" id="inputPC" placeholder="H2P 2X2">
           </div>
@@ -81,7 +73,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-primary">Sign in</button>
+      <button type="submit" class="btn btn-primary" id="signUpSubmit">Sign in</button>
     </form>
   </section>
 
