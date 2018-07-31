@@ -9,6 +9,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// Create a variable to reference the database.
+var database = firebase.database();
+
 // Initial values
 var firstName = '';
 var lastName = '';
@@ -20,25 +23,9 @@ var postalcode = '';
 var email = '';
 var password = '';
 
-// Create a variable to reference the database.
-var database = firebase.database();
-
 // Create new User
 $('#signUpSubmit').on('click', function(event) {
   event.preventDefault();
-
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then(function(user) {
-      console.log('uid', user.uid);
-    })
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorMessage);
-    });
 
   // Capture user inputs and store them into variables
   var firstName = $('#inputFName')
@@ -53,7 +40,7 @@ $('#signUpSubmit').on('click', function(event) {
   var city = $('#inputCity')
     .val()
     .trim();
-  var province = $('inputProvince')
+  var province = $('#inputProvince')
     .val()
     .trim();
   var country = $('#inputCountry')
@@ -62,14 +49,27 @@ $('#signUpSubmit').on('click', function(event) {
   var postalcode = $('#inputPC')
     .val()
     .trim();
-  var email = $('inputEmail4')
+  var email = $('#inputEmail4')
     .val()
     .trim();
   var password = $('#inputPassword4')
     .val()
     .trim();
 
-  database.ref('users').push({
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then(function(user) {
+      console.log('uid', user.uid);
+    })
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorMessage);
+    });
+
+  var newUser = {
     firstName: firstName,
     lastName: lastName,
     address: address,
@@ -79,7 +79,11 @@ $('#signUpSubmit').on('click', function(event) {
     postalcode: postalcode,
     email: email,
     password: password
-  });
+  };
+
+  console.log(newUser);
+
+  database.ref('users').push(newUser);
 
   //dataRef.ref().on('child added', function(childSnapShot) {}),
   //function(errorObject) {
@@ -134,7 +138,7 @@ $('#signInSubmit').on('click', function(event) {
 
 // !!!!!!!!!!IMPORTANT - All pages will need to reference this code to determine if the user is logged in or not!!!!!!!!!!!!
 // Listener on the Firebase user object.
-firebase.auth().onAuthStateChanged(function(user) {
+/* firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     var uiConfig = {
       signInSuccessUrl:
@@ -177,9 +181,9 @@ firebase.auth().onAuthStateChanged(function(user) {
     );
   } else {
     console.log('epic fail');
-  }
+  } */
 
-  var db = firebase.database();
+/*   var db = firebase.database();
 
   // For this line to work, there MUST be a matching users entry in the Firebase database. I've created 1 user as an example. Sign-In using abc@abc.com with password 123456.
   db.ref('users')
@@ -188,5 +192,5 @@ firebase.auth().onAuthStateChanged(function(user) {
     .once('value')
     .then(function(snapshot) {
       console.log(snapshot.val());
-    });
-});
+    }); 
+});*/
